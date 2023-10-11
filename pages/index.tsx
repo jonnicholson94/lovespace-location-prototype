@@ -7,6 +7,7 @@ const Home = () => {
   const [destination, setDestination] = useState({ lat: 51.4992, lon: -0.0929 });
   const [error, setError] = useState("")
   const [valid, setValid] = useState("Awaiting location")
+  const [timestamp, setTimestamp] = useState("")
 
   const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number) => {
     const R = 6371000; // Earth radius in meters
@@ -29,6 +30,15 @@ const Home = () => {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
 
+    const date = new Date(position.timestamp);
+
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+
+    const readableTime = `${hours}:${minutes}:${seconds}`;
+    setTimestamp(readableTime)
+
     setLocation({ latitude, longitude })
 
   }
@@ -39,7 +49,7 @@ const Home = () => {
 
   const checkLocation = () => {
     console.log("Running check location...")
-    navigator.geolocation.getCurrentPosition(getLocation, handleError);
+    navigator.geolocation.watchPosition(getLocation, handleError);
   }
 
   useEffect(() => {
@@ -69,6 +79,8 @@ const Home = () => {
       </a>
 
       <p className="underline mt-[30px]">{valid}</p>
+
+      <p className="mt-[30px]">Latest check: {timestamp}</p>
 
     </div>
   )
