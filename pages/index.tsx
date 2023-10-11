@@ -80,6 +80,8 @@ const Home = () => {
 
       <p className="underline mt-[30px]">{valid}</p>
 
+      { valid === "You're within radius" && <button className="h-[50px] w-[200px] text-[#fff] font-bold bg-[#000] my-[50px]" onClick={() => alert("You can do a job")}>Click for an action</button> }
+
       <p className="mt-[30px]">Latest check: {timestamp}</p>
 
     </div>
