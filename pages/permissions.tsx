@@ -1,17 +1,27 @@
 
 import { useEffect, useState } from "react"
+import { IBrowser, IDevice, UAParser } from "ua-parser-js"
 
 const Permissions = () => {
 
     const [location, setLocation] = useState("")
     const [notifications, setNotifications] = useState("")
     const [camera, setCamera] = useState("")
-    const [platform, setPlatform] = useState("")
-    const [vendor, setVendor] = useState("")
+    const [browser, setBrowser] = useState<undefined | string>("")
+    const [device, setDevice] = useState<undefined | string>("")
+
+    const parser = new UAParser()
 
     useEffect(() => {
 
         console.log(navigator)
+        console.log(parser.getResult())
+
+        const userBrowser = parser.getBrowser().name
+        const userDevice = parser.getDevice().model
+
+        setBrowser(userBrowser)
+        setDevice(userDevice)
 
         if (navigator.geolocation) {
           navigator.permissions
@@ -53,9 +63,6 @@ const Permissions = () => {
         //         setCamera("prompt")
         //     }
         // })
-
-        setPlatform(navigator.platform)
-        setVendor(navigator.vendor)
         
       }, []);
 
@@ -81,8 +88,9 @@ const Permissions = () => {
                 <p className="mr-[20px]">Current status: {camera}</p>
                 <button className="h-[40px] w-[200px] bg-black text-white font-bold" onClick={() => navigator.mediaDevices.getUserMedia({ video: true })}>Request permission</button>
             </div> */}
-            <p>{platform}</p>
-            <p>{vendor}</p>
+            <p>{browser}</p>
+            <p>{device}</p>
+
         </div>
     )
 }
