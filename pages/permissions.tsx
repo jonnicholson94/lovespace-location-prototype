@@ -14,9 +14,6 @@ const Permissions = () => {
 
     useEffect(() => {
 
-        console.log(navigator)
-        console.log(parser.getResult())
-
         const userBrowser = parser.getBrowser().name
         const userDevice = parser.getDevice().model
 
@@ -46,10 +43,13 @@ const Permissions = () => {
 
         navigator.permissions.query({ name: "notifications"}).then((result) => {
             if (result.state === "denied") {
+                console.log("Notifications denied")
                 setNotifications("denied")
             } else if (result.state === "granted") {
+                console.log("Notifications granted")
                 setNotifications("granted")
             } else if (result.state === "prompt") {
+                console.log("Notifications prompt")
                 setNotifications("prompt")
             }
         })
@@ -67,7 +67,7 @@ const Permissions = () => {
       }, []);
 
     const watchLocation = () => {
-        console.log("Watching location")
+        return null
     }
 
     return (
